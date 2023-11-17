@@ -1,16 +1,16 @@
 # Avaliação - Projeto diario_viagens
 
-Instituto Federal de São Paulo - campus Barretos
+### Instituto Federal de São Paulo - campus Barretos
 
-Pós-Graduação lato senso em Programação para Internet e Dispositivos Móveis
+### Pós-Graduação lato senso em Programação para Internet e Dispositivos Móveis
 
-Desenvolvimento para Dispositivos Móveis II
+### Desenvolvimento para Dispositivos Móveis II
 
-Introdução
+## Introdução
 
 Nesta avaliação, você deverá desenvolver um aplicativo para ser utilizado como um diário de viagens, de acordo com as especificações e restrições listadas neste documento.
 
-Forma de Avaliação
+## Forma de Avaliação
 
 A avaliação levará em consideração as seguintes características do aplicativo desenvolvido:
 
@@ -25,19 +25,19 @@ A avaliação levará em consideração as seguintes características do aplicat
 • Correta explanação do funcionamento do aplicativo.
 
 
-Formação de Grupos
+## Formação de Grupos
 
 Esta avaliação pode ser feita de forma individual ou em grupo de, no máximo, três discentes, a critério dos discentes.
 
-Material a ser entregue
+## Material a ser entregue
 
 Deverão ser entregues o código-fonte de dois aplicativos, um desenvolvido utilizando o framework React Native e outro utilizando o framework Flutter. Ambos aplicativos possuem as mesmas características, sendo diferenciados no framework utilizado para sua escrita. Também deverá ser entregue um relatório, explicando as diferenças que o grupo encontrou no desenvolvimento utilizando as diferentes linguagens, bem como as suas vantagens e as desvantagens no desenvolvimento do aplicativo proposto.
 
-Data de Entrega
+## Data de Entrega
 
 O prazo máximo para a entrega do material solicitado é o dia 06/dez/2023 às 23:59.
 
-Forma de Entrega
+## Forma de Entrega
 
 A entrega deverá ser realizada em atividade cadastrada no Moodle institucional, disponível em https://moodle.brt.ifsp.edu.br/. O código-fonte deve estar em repositório público no GitLab ou GitHub, sendo o seu endereço informado no Moodle institucional.
 
