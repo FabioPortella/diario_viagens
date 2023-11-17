@@ -176,8 +176,12 @@ class _ViagemPageState extends State<ViagemPage> {
                   var viagem = _viagem[index];
                   return Dismissible(
                     onDismissed: (DismissDirection dismissDirection) async {
+                      //TODO Criar dialogo para confirmação de exlução
                       await viagemRepository.excluir(viagem);
                       obterViagem();
+                      // ignore: use_build_context_synchronously
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Viagem foi excluida")));
                     },
                     key: Key(viagem.localViagem),
                     child: ListTile(
