@@ -1,18 +1,18 @@
-import 'package:diario_viagens/model/viagem_model.dart';
-import 'package:diario_viagens/repositories/viagem_repository.dart';
+import 'package:diario_viagens/model/viagem_sqlite_model.dart';
+import 'package:diario_viagens/repositories/viagem_sqlite_repository.dart';
 import 'package:diario_viagens/shared/widgets/text_label.dart';
 import 'package:flutter/material.dart';
 
-class ViagemPage extends StatefulWidget {
-  const ViagemPage({super.key});
+class ViagemPageSQLite extends StatefulWidget {
+  const ViagemPageSQLite({super.key});
 
   @override
-  State<ViagemPage> createState() => _ViagemPageState();
+  State<ViagemPageSQLite> createState() => _ViagemPageSQLiteState();
 }
 
-class _ViagemPageState extends State<ViagemPage> {
-  late ViagemRepository viagemRepository;
-  var _viagem = const <ViagemModel>[];
+class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
+  ViagemSQLiteRepository viagemRepository = ViagemSQLiteRepository();
+  var _viagem = const <ViagemSQLiteModel>[];
   var localViagemController = TextEditingController(text: "");
   var dataInicioViagemController = TextEditingController(text: "");
   var dataFinalViagemController = TextEditingController(text: "");
@@ -29,8 +29,7 @@ class _ViagemPageState extends State<ViagemPage> {
   }
 
   void obterViagem() async {
-    viagemRepository = await ViagemRepository.carregar();
-    _viagem = viagemRepository.obterDados(apenasNaoEncerradas);
+    _viagem = await viagemRepository.obterDados(apenasNaoEncerradas);
     setState(() {});
   }
 
@@ -67,34 +66,12 @@ class _ViagemPageState extends State<ViagemPage> {
                         ),
                         const TextLabel(texto: "Data o início da viagem"),
                         TextField(
-                            controller: dataInicioViagemController,
-                            readOnly: true,
-                            onTap: () async {
-                              dataInicio = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(2000, 1, 1),
-                                  lastDate: DateTime(2050, 12, 31));
-                              if (dataInicio != null) {
-                                dataInicioViagemController.text =
-                                    "${dataInicio.day}/${dataInicio.month}/${dataInicio.year}";
-                              }
-                            }),
+                          controller: dataInicioViagemController,
+                        ),
                         const TextLabel(texto: "Data final"),
                         TextField(
-                            controller: dataFinalViagemController,
-                            readOnly: true,
-                            onTap: () async {
-                              dataFinal = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(2000, 1, 1),
-                                  lastDate: DateTime(2050, 12, 31));
-                              if (dataFinal != null) {
-                                dataFinalViagemController.text =
-                                    "${dataFinal.day}/${dataFinal.month}/${dataFinal.year}";
-                              }
-                            }),
+                          controller: dataFinalViagemController,
+                        ),
                       ],
                     );
                   }),
@@ -113,24 +90,25 @@ class _ViagemPageState extends State<ViagemPage> {
                                         "O local da viagem dever ser preenchido - 3 caracteres ou mais.")));
                             return;
                           }
-                          if (dataInicio == null) {
+                          if (dataInicioViagemController.text == "") {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content: Text(
                                         "Data de início da viagem inválida")));
                             return;
                           }
-                          if (dataFinal == null) {
+                          if (dataFinalViagemController.text == "") {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content: Text(
                                         "Data final da viagem inválida. Favor informar uma data, mesmo que seja uma previsão.")));
                             return;
                           }
-                          await viagemRepository.salvar(ViagemModel.criar(
+                          await viagemRepository.salvar(ViagemSQLiteModel(
+                              0,
                               localViagemController.text,
-                              dataInicio,
-                              dataFinal,
+                              dataInicioViagemController.text,
+                              dataFinalViagemController.text,
                               false));
                           // ignore: use_build_context_synchronously
                           Navigator.pop(context);
@@ -176,7 +154,7 @@ class _ViagemPageState extends State<ViagemPage> {
                   var viagem = _viagem[index];
                   return Dismissible(
                     onDismissed: (DismissDirection dismissDirection) async {
-                      await viagemRepository.excluir(viagem);
+                      await viagemRepository.remover(viagem.id);
                       obterViagem();
                       // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -187,11 +165,11 @@ class _ViagemPageState extends State<ViagemPage> {
                       //leading: const Text(),
                       title: Text("Viagem: ${viagem.localViagem}"),
                       subtitle: Text(
-                          "Inicio: ${viagem.dataInicio?.day.toString()}/${viagem.dataInicio?.month.toString()}/${viagem.dataInicio?.year.toString()}\nFim:    ${viagem.dataFinal?.day.toString()}/${viagem.dataFinal?.month.toString()}/${viagem.dataFinal?.year.toString()}"),
+                          "Inicio: ${viagem.dataInicio}\nFim:  ${viagem.dataFinal}"),
                       trailing: Switch(
                         onChanged: (bool value) async {
                           viagem.encerrada = value;
-                          viagemRepository.alterar(viagem);
+                          viagemRepository.atualizar(viagem);
                           obterViagem();
                         },
                         value: viagem.encerrada,
