@@ -7,15 +7,15 @@ class ViagemSQLiteRepository {
     var db = await SQLiteDataBase().obterDataBase();
 
     var result = await db.rawQuery(apenasNaoEncerradas
-        ? "SELECT id, local, inicio, final, encerrado FROM viagens WHERE encerrado = 0"
-        : "SELECT id, local, inicio, final, encerrado FROM viagens");
+        ? "SELECT id, local, inicio, final, encerrada FROM viagens WHERE encerrada = 0"
+        : "SELECT id, local, inicio, final, encerrada FROM viagens");
     for (var element in result) {
       viagens.add(ViagemSQLiteModel(
           int.parse(element["id"].toString()),
           element["local"].toString(),
           element["inicio"].toString(),
           element["final"].toString(),
-          element["encerrado"] == 1));
+          element["encerrada"] == 1));
     }
     return viagens;
   }
@@ -23,7 +23,7 @@ class ViagemSQLiteRepository {
   Future<void> salvar(ViagemSQLiteModel viagemSQLiteModel) async {
     var db = await SQLiteDataBase().obterDataBase();
     await db.rawInsert(
-        "INSERT INTO viagens (local, inicio, final, encerrado) values(?, ?, ?, ?)",
+        "INSERT INTO viagens (local, inicio, final, encerrada) values(?, ?, ?, ?)",
         [
           viagemSQLiteModel.localViagem,
           viagemSQLiteModel.dataInicio,
@@ -35,7 +35,7 @@ class ViagemSQLiteRepository {
   Future<void> atualizar(ViagemSQLiteModel viagemSQLiteModel) async {
     var db = await SQLiteDataBase().obterDataBase();
     await db.rawUpdate(
-        "UPDATE viagens SET local = ?, inicio = ?, final = ?, encerrado = ? WHERE id = ?",
+        "UPDATE viagens SET local = ?, inicio = ?, final = ?, encerrada = ? WHERE id = ?",
         [
           viagemSQLiteModel.localViagem,
           viagemSQLiteModel.dataInicio,

@@ -10,7 +10,7 @@ class SQLiteDataBase {
          local TEXT,
          inicio TEXT,
          final TEXT,
-         encerrado INTEGER
+         encerrada INTEGER
          );'''
   };
 
