@@ -1,4 +1,6 @@
 import 'package:diario_viagens/model/viagem_sqlite_model.dart';
+import 'package:diario_viagens/pages/card_page.dart';
+import 'package:diario_viagens/pages/fotos_page.dart';
 import 'package:diario_viagens/repositories/viagem_sqlite_repository.dart';
 import 'package:diario_viagens/shared/widgets/text_label.dart';
 import 'package:flutter/material.dart';
@@ -196,6 +198,12 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
                         },
                         value: viagem.encerrada,
                       ),
+                      onLongPress: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const CardBasicRoute()));
+                      },
                     ),
                   );
                 },
