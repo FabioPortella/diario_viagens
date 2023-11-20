@@ -1,6 +1,5 @@
 import 'package:diario_viagens/model/viagem_sqlite_model.dart';
 import 'package:diario_viagens/pages/card_page.dart';
-import 'package:diario_viagens/pages/fotos_page.dart';
 import 'package:diario_viagens/repositories/viagem_sqlite_repository.dart';
 import 'package:diario_viagens/shared/widgets/text_label.dart';
 import 'package:flutter/material.dart';
@@ -185,25 +184,55 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
                           const SnackBar(content: Text("Viagem foi excluida")));
                     },
                     key: Key(viagem.localViagem),
-                    child: ListTile(
-                      //leading: const Text(),
-                      title: Text("Viagem: ${viagem.localViagem}"),
-                      subtitle: Text(
-                          "Inicio: ${viagem.dataInicio}\nFim:  ${viagem.dataFinal}"),
-                      trailing: Switch(
-                        onChanged: (bool value) async {
-                          viagem.encerrada = value;
-                          viagemRepository.atualizar(viagem);
-                          obterViagem();
-                        },
-                        value: viagem.encerrada,
-                      ),
-                      onLongPress: () {
+                    child: GestureDetector(
+                      // também pode ser usado onLongPress
+                      onTap: () {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const CardBasicRoute()));
                       },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          side: const BorderSide(
+                            color: MyColorsSample.primary,
+                            width: 2,
+                          ),
+                        ),
+                        elevation: 0,
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        child: Container(
+                          padding: const EdgeInsets.all(15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                children: [
+                                  Text(
+                                    viagem.localViagem,
+                                    style: TextStyle(
+                                        fontSize: 24, color: Colors.grey[800]),
+                                  ),
+                                  const Spacer(),
+                                  Switch(
+                                    onChanged: (bool value) async {
+                                      viagem.encerrada = value;
+                                      viagemRepository.atualizar(viagem);
+                                      obterViagem();
+                                    },
+                                    value: viagem.encerrada,
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                  "Início: ${viagem.dataInicio} \nFim: ${viagem.dataFinal}",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.grey[700])),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   );
                 },
