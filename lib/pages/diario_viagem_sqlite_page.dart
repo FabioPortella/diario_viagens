@@ -157,9 +157,9 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    "Somente viagens não encerradas",
-                    style: TextStyle(fontSize: 18),
+                  Text(
+                    "Viagens não encerradas",
+                    style: TextStyle(fontSize: 20, color: Colors.grey[800]),
                   ),
                   Switch(
                       value: apenasNaoEncerradas,
