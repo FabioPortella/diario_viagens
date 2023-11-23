@@ -115,65 +115,6 @@ class CardBasicRouteState extends State<CardBasicRoute> {
             ),
             Container(height: 10),
 
-            // Cards 02 contendo as fotos e descrições da viagem
-
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6),
-              ),
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Image.asset(
-                    AppImages.paisagem3,
-                    height: 250,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("20/12/2023",
-                            style: MyTextSample.button(context)!
-                                .copyWith(color: MyColorsSample.grey_20)),
-                        Container(height: 5),
-                        Text("Cidade de Cusco",
-                            style: MyTextSample.headline(context)!
-                                .copyWith(color: MyColorsSample.grey_80)),
-                        Container(height: 15),
-                        Text(
-                            "Cusco expande-se pelo vale que forma o rio Huatanay e pelos montes vizinhos. Seu clima é geralmente seco e temperado, com duas estações definidas: uma de secas entre abril e outubro, com dias ensolarados, noites frias e temperatura média de 13 °C; e outra chuvosa, de novembro a março, temperatura média de 12 °C. Nos dias ensolarados a temperatura alcança 20 °C.",
-                            style: TextStyle(
-                                fontSize: 15, color: Colors.grey[600])),
-                        Container(height: 10),
-                        Row(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {},
-                              child: Text('Editar',
-                                  style: MyTextSample.button(
-                                      context)!), //.copyWith(color: Colors.white)
-                            ),
-                            Container(width: 10),
-                            TextButton(
-                              onPressed: () {},
-                              child: Text('Excluir',
-                                  style: MyTextSample.button(context)!
-                                      .copyWith(color: MyColorsSample.primary)),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(height: 10),
-
             TextButton(
                 onPressed: () {
                   Navigator.pushReplacement(

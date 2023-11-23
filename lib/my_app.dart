@@ -1,7 +1,6 @@
 import 'package:diario_viagens/pages/diario_viagem_sqlite_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-//import 'package:diario_viagens/pages/diario_viagem_page.dart';
 
 class MyApp extends StatelessWidget {
   // stl - atalho
@@ -12,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false, // retira a faixa DEBUG do app
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.blue,
         textTheme: GoogleFonts.robotoTextTheme(),
       ),
       home: const ViagemPageSQLite(),
