@@ -183,6 +183,30 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
                       ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text("Viagem foi excluida")));
                     },
+                    confirmDismiss: (direction) async {
+                      return await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("Confirmar"),
+                            content: const Text(
+                                "Você realmente quer excluir este item?"),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.of(context).pop(false),
+                                child: const Text("Cancelar"),
+                              ),
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.of(context).pop(true),
+                                child: const Text("Excluir"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
                     key: Key(viagem.localViagem),
                     child: GestureDetector(
                       // também pode ser usado onLongPress
