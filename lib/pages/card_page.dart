@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 
 double defaultRadius = 8.0;
 
-class CardPage extends StatefulWidget {
-  const CardPage({super.key});
+class CardBasicRoute extends StatefulWidget {
+  const CardBasicRoute({super.key});
 
   @override
-  CardPageState createState() => CardPageState();
+  CardBasicRouteState createState() => CardBasicRouteState();
 }
 
-class CardPageState extends State<CardPage> {
+class CardBasicRouteState extends State<CardBasicRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
