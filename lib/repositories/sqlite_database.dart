@@ -11,16 +11,16 @@ class SQLiteDataBase {
          inicio TEXT,
          final TEXT,
          encerrada INTEGER
-         );
+         );''',
          
+    2: '''
       CREATE TABLE foto (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         local_foto TEXT,
         data_foto TEXT,
         midia TEXT, 
         descricao BLOB,
-        id_viagem INTEGER,
-        FOREIGN KEY (id_viagem) REFERENCES viagens(id)
+        id_viagem INTEGER
     );
       '''
   };

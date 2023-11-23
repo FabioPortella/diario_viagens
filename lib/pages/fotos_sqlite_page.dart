@@ -1,8 +1,10 @@
-import 'package:diario_viagens/model/viagem_sqlite_model.dart';
+import 'package:diario_viagens/model/foto_sqlite_model.dart';
 import 'package:diario_viagens/pages/card_page.dart';
-import 'package:diario_viagens/repositories/viagem_sqlite_repository.dart';
+import 'package:diario_viagens/repositories/foto_sqlite_repository.dart';
 import 'package:diario_viagens/shared/widgets/text_label.dart';
 import 'package:flutter/material.dart';
+
+double defaultRadius = 8.0;
 
 class FotosPageSQLite extends StatefulWidget {
   const FotosPageSQLite({super.key});
@@ -12,25 +14,24 @@ class FotosPageSQLite extends StatefulWidget {
 }
 
 class _FotosPageSQLiteState extends State<FotosPageSQLite> {
-  ViagemSQLiteRepository viagemRepository = ViagemSQLiteRepository();
-  var _viagem = const <ViagemSQLiteModel>[];
-  var localViagemController = TextEditingController(text: "");
-  var dataInicioViagemController = TextEditingController(text: "");
-  var dataFinalViagemController = TextEditingController(text: "");
-  var apenasNaoEncerradas = false;
+  FotoSQLiteRepository fotoRepository = FotoSQLiteRepository();
+  var _fotos = const <FotoSQLiteModel>[];
+  var localFotoController = TextEditingController(text: "");
+  var dataFotoController = TextEditingController(text: "");
+  var descricaoController = TextEditingController(text: "");
+  var idViagem = 1;
   // ignore: prefer_typing_uninitialized_variables
-  var dataInicio;
+  var dataFoto;
   // ignore: prefer_typing_uninitialized_variables
-  var dataFinal;
 
   @override
   void initState() {
     super.initState();
-    obterViagem();
+    obterFotos();
   }
 
-  void obterViagem() async {
-    _viagem = await viagemRepository.obterDados(apenasNaoEncerradas);
+  void obterFotos() async {
+    _fotos = await fotoRepository.obterDados();
     setState(() {});
   }
 
@@ -44,11 +45,12 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          localViagemController.text = "";
-          dataInicioViagemController.text = "";
-          dataInicio = null;
-          dataFinalViagemController.text = "";
-          dataFinal = null;
+          localFotoController.text = "";
+          dataFotoController.text = "";
+          dataFoto = null;
+          descricaoController.text = "";
+          idViagem = 1;
+
           showDialog(
               context: context,
               builder: (BuildContext bc) {
@@ -64,40 +66,29 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                   content: StatefulBuilder(builder: (context, setState) {
                     return Wrap(
                       children: [
-                        const TextLabel(texto: "Viagem para:"),
+                        const TextLabel(texto: "Local da foto:"),
                         TextField(
-                          controller: localViagemController,
+                          controller: localFotoController,
                         ),
-                        const TextLabel(texto: "Data o início da viagem"),
+                        const TextLabel(texto: "Data da foto"),
                         TextField(
-                            controller: dataInicioViagemController,
+                            controller: dataFotoController,
                             readOnly: true,
                             onTap: () async {
-                              dataInicio = await showDatePicker(
+                              dataFoto = await showDatePicker(
                                   context: context,
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime(2000, 1, 1),
                                   lastDate: DateTime(2050, 12, 31));
-                              if (dataInicio != null) {
-                                dataInicioViagemController.text =
-                                    "${dataInicio.day}/${dataInicio.month}/${dataInicio.year}";
+                              if (dataFoto != null) {
+                                dataFotoController.text =
+                                    "${dataFoto.day}/${dataFoto.month}/${dataFoto.year}";
                               }
                             }),
-                        const TextLabel(texto: "Data final"),
+                        const TextLabel(texto: "Descrição da foto:"),
                         TextField(
-                            controller: dataFinalViagemController,
-                            readOnly: true,
-                            onTap: () async {
-                              dataFinal = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(2000, 1, 1),
-                                  lastDate: DateTime(2050, 12, 31));
-                              if (dataFinal != null) {
-                                dataFinalViagemController.text =
-                                    "${dataFinal.day}/${dataFinal.month}/${dataFinal.year}";
-                              }
-                            }),
+                          controller: descricaoController,
+                        ),
                       ],
                     );
                   }),
@@ -109,41 +100,34 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                         child: const Text("Cancelar")),
                     TextButton(
                         onPressed: () async {
-                          if (localViagemController.text.trim().length < 3) {
+                          if (localFotoController.text.trim().length < 5) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content: Text(
-                                        "O local da viagem dever ser preenchido - 3 caracteres ou mais.")));
+                                        "O local da foto dever ser preenchido - 5 caracteres ou mais.")));
                             return;
                           }
-                          if (dataInicioViagemController.text == "") {
+                          if (dataFotoController.text == "") {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                    content: Text(
-                                        "Data de início da viagem inválida")));
+                                    content: Text("Data da foto inválida")));
                             return;
                           }
-                          if (dataFinalViagemController.text == "") {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        "Data final da viagem inválida. Favor informar uma data, mesmo que seja uma previsão.")));
-                            return;
-                          }
-                          await viagemRepository.salvar(ViagemSQLiteModel(
+                          await fotoRepository.salvar(FotoSQLiteModel(
                               0,
-                              localViagemController.text,
-                              dataInicioViagemController.text,
-                              dataFinalViagemController.text,
-                              false));
+                              localFotoController.text,
+                              dataFotoController.text,
+                              "midia_foto",
+                              descricaoController.text,
+                              idViagem));
                           // ignore: use_build_context_synchronously
                           Navigator.pop(context);
-                          obterViagem();
+                          obterFotos();
                           setState(() {});
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                  content: Text("Viagem salva com sucesso")));
+                                  content: Text("Foto salva com sucesso")));
                         },
                         child: const Text("Salvar")),
                   ],
@@ -155,36 +139,18 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Viagens não encerradas",
-                    style: TextStyle(fontSize: 20, color: Colors.grey[800]),
-                  ),
-                  Switch(
-                      value: apenasNaoEncerradas,
-                      onChanged: (bool value) {
-                        apenasNaoEncerradas = value;
-                        obterViagem();
-                      })
-                ],
-              ),
-            ),
             Expanded(
               child: ListView.builder(
-                itemCount: _viagem.length,
+                itemCount: _fotos.length,
                 itemBuilder: (BuildContext bc, int index) {
-                  var viagem = _viagem[index];
+                  var foto = _fotos[index];
                   return Dismissible(
                     onDismissed: (DismissDirection dismissDirection) async {
-                      await viagemRepository.remover(viagem.id);
-                      obterViagem();
+                      await fotoRepository.remover(foto.id);
+                      obterFotos();
                       // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Viagem foi excluida")));
+                          const SnackBar(content: Text("Foto foi excluida")));
                     },
                     confirmDismiss: (direction) async {
                       return await showDialog(
@@ -210,14 +176,14 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                         },
                       );
                     },
-                    key: Key(viagem.localViagem),
+                    key: Key(foto.localFoto),
                     child: GestureDetector(
                       // também pode ser usado onLongPress
                       onTap: () {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const CardBasicRoute()));
+                                builder: (context) => const CardPage()));
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
@@ -234,26 +200,15 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Row(
-                                children: [
-                                  Text(
-                                    viagem.localViagem,
-                                    style: TextStyle(
-                                        fontSize: 24, color: Colors.grey[800]),
-                                  ),
-                                  const Spacer(),
-                                  Switch(
-                                    onChanged: (bool value) async {
-                                      viagem.encerrada = value;
-                                      viagemRepository.atualizar(viagem);
-                                      obterViagem();
-                                    },
-                                    value: viagem.encerrada,
-                                  ),
-                                ],
-                              ),
                               Text(
-                                  "Início: ${viagem.dataInicio} \nFim: ${viagem.dataFinal}",
+                                foto.localFoto,
+                                style: TextStyle(
+                                    fontSize: 24, color: Colors.grey[800]),
+                              ),
+                              Text("Data: ${foto.dataFoto}",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.grey[700])),
+                              Text("Descrição: ${foto.descricao}",
                                   style: TextStyle(
                                       fontSize: 15, color: Colors.grey[700])),
                             ],
