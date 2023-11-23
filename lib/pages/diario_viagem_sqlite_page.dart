@@ -37,7 +37,10 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Diário de Viagens")),
+      appBar: AppBar(
+        title: const Text("Diário de Viagens"),
+        backgroundColor: Colors.green,
+      ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {

@@ -17,7 +17,10 @@ class CardBasicRouteState extends State<CardBasicRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Diário de Viagens")),
+      appBar: AppBar(
+        title: const Text("Diário de Viagens"),
+        backgroundColor: Colors.green,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(8),
         scrollDirection: Axis.vertical,
