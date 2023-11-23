@@ -8,8 +8,8 @@ class FotoSQLiteModel {
   String _descricao = "";
   int _idViagem = 0;
 
-  FotoSQLiteModel(this._id, this._localFoto, this._dataFoto, 
-      this._midia, this._descricao, this._idViagem);
+  FotoSQLiteModel(this._id, this._localFoto, this._dataFoto, this._midia,
+      this._descricao, this._idViagem);
 
   int get id => _id;
   set id(int id) {
@@ -34,7 +34,7 @@ class FotoSQLiteModel {
     _midia = midia;
   }
 
-    String get descricao => _descricao;
+  String get descricao => _descricao;
 
   set descricao(String descricao) {
     _descricao = descricao;
