@@ -219,7 +219,10 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const FotosPageSQLite()));
+                                builder: (context) => FotosPageSQLite(
+                                      viagemId: viagem.id,
+                                      viagemLocal: viagem.localViagem,
+                                    )));
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(

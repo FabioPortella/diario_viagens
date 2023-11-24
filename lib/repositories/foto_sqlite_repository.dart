@@ -2,11 +2,12 @@ import 'package:diario_viagens/model/foto_sqlite_model.dart';
 import 'package:diario_viagens/repositories/sqlite_database.dart';
 
 class FotoSQLiteRepository {
-  Future<List<FotoSQLiteModel>> obterDados() async {
+  Future<List<FotoSQLiteModel>> obterDados(int idViagem) async {
     List<FotoSQLiteModel> fotos = [];
     var db = await SQLiteDataBase().obterDataBase();
 
-    var result = await db.rawQuery("SELECT * FROM foto");
+    var result =
+        await db.rawQuery("SELECT * FROM foto WHERE id_viagem = ?", [idViagem]);
     for (var element in result) {
       fotos.add(FotoSQLiteModel(
           int.parse(element["id"].toString()),

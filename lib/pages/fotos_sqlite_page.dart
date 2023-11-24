@@ -8,7 +8,11 @@ import 'package:flutter/material.dart';
 double defaultRadius = 8.0;
 
 class FotosPageSQLite extends StatefulWidget {
-  const FotosPageSQLite({super.key});
+  const FotosPageSQLite(
+      {super.key, required this.viagemId, required this.viagemLocal});
+
+  final int viagemId;
+  final String viagemLocal;
 
   @override
   State<FotosPageSQLite> createState() => _FotosPageSQLiteState();
@@ -20,7 +24,6 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
   var localFotoController = TextEditingController(text: "");
   var dataFotoController = TextEditingController(text: "");
   var descricaoController = TextEditingController(text: "");
-  var idViagem = 1;
   // ignore: prefer_typing_uninitialized_variables
   var dataFoto;
 
@@ -33,7 +36,7 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
   }
 
   void obterFotos() async {
-    _fotos = await fotoRepository.obterDados();
+    _fotos = await fotoRepository.obterDados(widget.viagemId);
     setState(() {});
   }
 
@@ -60,7 +63,6 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
           dataFotoController.text = "";
           dataFoto = null;
           descricaoController.text = "";
-          idViagem = 1;
 
           showDialog(
               context: context,
@@ -138,7 +140,7 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                               dataFotoController.text,
                               "midia_foto",
                               descricaoController.text,
-                              idViagem));
+                              widget.viagemId));
                           // ignore: use_build_context_synchronously
                           Navigator.pop(context);
                           obterFotos();
@@ -166,7 +168,7 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                   width: 2,
                 ),
               ),
-              elevation: 0,
+              elevation: 8,
               clipBehavior: Clip.antiAliasWithSaveLayer,
               child: Container(
                 padding: const EdgeInsets.all(15),
@@ -174,14 +176,10 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Machu Picchu",
+                      "${widget.viagemId} - ${widget.viagemLocal}",
                       style: TextStyle(fontSize: 24, color: Colors.grey[800]),
                     ),
-                    Container(height: 10),
-                    Text("Início: 12/12/2023 \nFim: 26/12/2023",
-                        style:
-                            TextStyle(fontSize: 15, color: Colors.grey[700])),
-                    Container(height: 10),
+                    Container(height: 5),
                   ],
                 ),
               ),
@@ -246,7 +244,7 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text(foto.dataFoto,
+                                  Text("${foto.idViagem} - ${foto.dataFoto}",
                                       style: MyTextSample.button(context)!
                                           .copyWith(
                                               color: MyColorsSample.grey_20)),
