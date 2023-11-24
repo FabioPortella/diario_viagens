@@ -1,5 +1,4 @@
 import 'package:diario_viagens/model/viagem_sqlite_model.dart';
-//import 'package:diario_viagens/pages/card_page.dart';
 import 'package:diario_viagens/pages/fotos_sqlite_page.dart';
 import 'package:diario_viagens/repositories/viagem_sqlite_repository.dart';
 import 'package:diario_viagens/shared/widgets/text_label.dart';
@@ -41,7 +40,7 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Diário de Viagens"),
+        title: const Text("Diário de Viagens - Locais visitados"),
         backgroundColor: Colors.green,
       ),
       floatingActionButton: FloatingActionButton(

@@ -23,6 +23,7 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
   var idViagem = 1;
   // ignore: prefer_typing_uninitialized_variables
   var dataFoto;
+
   // ignore: prefer_typing_uninitialized_variables
 
   @override
@@ -40,7 +41,7 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Diário de Viagens"),
+        title: const Text("Diário de Viagens - Fotos"),
         backgroundColor: Colors.green,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -157,6 +158,34 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
           children: [
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: const BorderSide(
+                  color: MyColorsSample.primary,
+                  width: 2,
+                ),
+              ),
+              elevation: 0,
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              child: Container(
+                padding: const EdgeInsets.all(15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Machu Picchu",
+                      style: TextStyle(fontSize: 24, color: Colors.grey[800]),
+                    ),
+                    Container(height: 10),
+                    Text("Início: 12/12/2023 \nFim: 26/12/2023",
+                        style:
+                            TextStyle(fontSize: 15, color: Colors.grey[700])),
+                    Container(height: 10),
+                  ],
+                ),
+              ),
+            ),
             Expanded(
               child: ListView.builder(
                 itemCount: _fotos.length,

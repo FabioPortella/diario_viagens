@@ -11,6 +11,8 @@ class ViagemSQLiteModel {
       this._dataFinal, this._encerrada);
 
   int get id => _id;
+
+  get local => null;
   set id(int id) {
     _id = id;
   }
