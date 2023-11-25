@@ -340,6 +340,8 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                                                           }),
                                                       const SizedBox(
                                                           height: 30),
+                                                      const TextLabel(
+                                                          texto: "Descrição:"),
                                                       TextField(
                                                         decoration:
                                                             const InputDecoration(
