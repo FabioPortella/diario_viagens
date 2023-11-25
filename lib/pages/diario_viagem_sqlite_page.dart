@@ -235,17 +235,22 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
                         elevation: 0,
                         clipBehavior: Clip.antiAliasWithSaveLayer,
                         child: Container(
-                          padding: const EdgeInsets.all(15),
+                          padding: const EdgeInsets.all(10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
+                              Text(
+                                viagem.localViagem,
+                                style: TextStyle(
+                                    fontSize: 22, color: Colors.grey[800]),
+                              ),
                               Row(
                                 children: [
                                   Text(
-                                    viagem.localViagem,
-                                    style: TextStyle(
-                                        fontSize: 24, color: Colors.grey[800]),
-                                  ),
+                                      "Início: ${viagem.dataInicio} \nFim: ${viagem.dataFinal}",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.grey[700])),
                                   const Spacer(),
                                   Switch(
                                     onChanged: (bool value) async {
@@ -257,10 +262,6 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
                                   ),
                                 ],
                               ),
-                              Text(
-                                  "Início: ${viagem.dataInicio} \nFim: ${viagem.dataFinal}",
-                                  style: TextStyle(
-                                      fontSize: 15, color: Colors.grey[700])),
                             ],
                           ),
                         ),

@@ -171,13 +171,13 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
               elevation: 8,
               clipBehavior: Clip.antiAliasWithSaveLayer,
               child: Container(
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
                       "${widget.viagemId} - ${widget.viagemLocal}",
-                      style: TextStyle(fontSize: 24, color: Colors.grey[800]),
+                      style: TextStyle(fontSize: 22, color: Colors.grey[800]),
                     ),
                     Container(height: 5),
                   ],
@@ -234,7 +234,7 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Image.asset(
-                              AppImages.paisagem2,
+                              AppImages.paisagem3,
                               height: 250,
                               width: double.infinity,
                               fit: BoxFit.cover,
