@@ -58,7 +58,7 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add_a_photo),
         onPressed: () async {
           await fotoRepository.salvar(FotoSQLiteModel(
               0,
