@@ -59,102 +59,20 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () {
-          localFotoController.text = "";
-          dataFotoController.text = "";
-          dataFoto = null;
-          descricaoController.text = "";
-
-          showDialog(
-              context: context,
-              builder: (BuildContext bc) {
-                return AlertDialog(
-                  alignment: Alignment.centerLeft,
-                  elevation: 8,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  title: const Text(
-                    "Adicionar",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  content: StatefulBuilder(builder: (context, setState) {
-                    return SingleChildScrollView(
-                      child: Wrap(
-                        children: [
-                          const TextLabel(texto: "Local da Foto:"),
-                          TextField(
-                            controller: localFotoController,
-                          ),
-                          const TextLabel(texto: "Data da foto:"),
-                          TextField(
-                              controller: dataFotoController,
-                              readOnly: true,
-                              onTap: () async {
-                                dataFoto = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2000, 1, 1),
-                                    lastDate: DateTime(2050, 12, 31));
-                                if (dataFoto != null) {
-                                  dataFotoController.text =
-                                      "${dataFoto.day}/${dataFoto.month}/${dataFoto.year}";
-                                }
-                              }),
-                          const TextLabel(texto: "Descrição da foto:"),
-                          TextField(
-                            decoration: const InputDecoration(
-                              labelText: "informe aqui uma descrição da foto:",
-                              border: OutlineInputBorder(),
-                            ),
-                            controller: descricaoController,
-                            maxLines: null,
-                          ),
-                          const SizedBox(height: 16),
-                        ],
-                      ),
-                    );
-                  }),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text("Cancelar")),
-                    TextButton(
-                        onPressed: () async {
-                          if (localFotoController.text.trim().length < 5) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        "O local da foto dever ser preenchido - 5 caracteres ou mais.")));
-                            return;
-                          }
-                          if (dataFotoController.text == "") {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text("Data da foto inválida")));
-                            return;
-                          }
-                          await fotoRepository.salvar(FotoSQLiteModel(
-                              0,
-                              localFotoController.text,
-                              dataFotoController.text,
-                              "midia_foto",
-                              descricaoController.text,
-                              widget.viagemId));
-                          // ignore: use_build_context_synchronously
-                          Navigator.pop(context);
-                          obterFotos();
-                          setState(() {});
-                          // ignore: use_build_context_synchronously
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text("Foto salva com sucesso")));
-                        },
-                        child: const Text("Salvar")),
-                  ],
-                );
-              });
+        onPressed: () async {
+          await fotoRepository.salvar(FotoSQLiteModel(
+              0,
+              "Local da foto",
+              DateFormat("dd/MM/yyyy").format(DateTime.now()),
+              "midia_foto",
+              "Descrição da foto",
+              widget.viagemId));
+          // ignore: use_build_context_synchronously
+          obterFotos();
+          setState(() {});
+          // ignore: use_build_context_synchronously
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Foto adicionada com sucesso")));
         },
       ),
       body: Container(
@@ -307,20 +225,13 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                                                               dataFotoController,
                                                           readOnly: true,
                                                           onTap: () async {
-                                                            DateTime
-                                                                initialDateTime =
-                                                                dataFoto != null
-                                                                    ? DateFormat(
-                                                                            "dd/MM/yyyy")
-                                                                        .parse(
-                                                                            dataFoto)
-                                                                    : DateTime
-                                                                        .now();
                                                             dataFoto = await showDatePicker(
                                                                 context:
                                                                     context,
-                                                                initialDate:
-                                                                    initialDateTime,
+                                                                initialDate: DateFormat(
+                                                                        "dd/MM/yyyy")
+                                                                    .parse(foto
+                                                                        .dataFoto),
                                                                 firstDate:
                                                                     DateTime(
                                                                         2000,
@@ -412,7 +323,7 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                                                           .showSnackBar(
                                                               const SnackBar(
                                                                   content: Text(
-                                                                      "Foto salva com sucesso")));
+                                                                      "Dados alterados com sucesso")));
                                                     },
                                                     child:
                                                         const Text("Salvar")),
