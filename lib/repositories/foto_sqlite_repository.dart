@@ -36,14 +36,12 @@ class FotoSQLiteRepository {
   Future<void> atualizar(FotoSQLiteModel fotoSQLiteModel) async {
     var db = await SQLiteDataBase().obterDataBase();
     await db.rawUpdate(
-        "UPDATE foto SET localFoto = ?, dataFoto = ?, midia = ?, descricao = ?, idViagem = ? WHERE id = ?",
+        "UPDATE foto SET local_foto = ?, data_foto = ?, descricao = ? WHERE id = ?",
         [
-          fotoSQLiteModel.id,
           fotoSQLiteModel.localFoto,
           fotoSQLiteModel.dataFoto,
-          fotoSQLiteModel.midia,
           fotoSQLiteModel.descricao,
-          fotoSQLiteModel.idViagem
+          fotoSQLiteModel.id,
         ]);
   }
 

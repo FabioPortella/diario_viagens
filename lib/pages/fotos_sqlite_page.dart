@@ -4,6 +4,7 @@ import 'package:diario_viagens/repositories/foto_sqlite_repository.dart';
 import 'package:diario_viagens/shared/app_images.dart';
 import 'package:diario_viagens/shared/widgets/text_label.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 double defaultRadius = 8.0;
 
@@ -264,7 +265,159 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                                           color: Colors.grey[600])),
                                   Container(height: 10),
                                   ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      localFotoController.text = foto.localFoto;
+                                      dataFotoController.text = foto.dataFoto;
+                                      dataFoto = null;
+                                      descricaoController.text = foto.descricao;
+
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext bc) {
+                                            return AlertDialog(
+                                              alignment: Alignment.centerLeft,
+                                              elevation: 8,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              title: const Text(
+                                                "Adicionar",
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              content: StatefulBuilder(
+                                                  builder: (context, setState) {
+                                                return SingleChildScrollView(
+                                                  child: Wrap(
+                                                    children: [
+                                                      const TextLabel(
+                                                          texto:
+                                                              "Local da Foto:"),
+                                                      TextField(
+                                                        controller:
+                                                            localFotoController,
+                                                      ),
+                                                      const TextLabel(
+                                                          texto:
+                                                              "Data da foto:"),
+                                                      TextField(
+                                                          controller:
+                                                              dataFotoController,
+                                                          readOnly: true,
+                                                          onTap: () async {
+                                                            DateTime
+                                                                initialDateTime =
+                                                                dataFoto != null
+                                                                    ? DateFormat(
+                                                                            "dd/MM/yyyy")
+                                                                        .parse(
+                                                                            dataFoto)
+                                                                    : DateTime
+                                                                        .now();
+                                                            dataFoto = await showDatePicker(
+                                                                context:
+                                                                    context,
+                                                                initialDate:
+                                                                    initialDateTime,
+                                                                firstDate:
+                                                                    DateTime(
+                                                                        2000,
+                                                                        1,
+                                                                        1),
+                                                                lastDate:
+                                                                    DateTime(
+                                                                        2050,
+                                                                        12,
+                                                                        31));
+                                                            if (dataFoto !=
+                                                                null) {
+                                                              dataFotoController
+                                                                      .text =
+                                                                  "${dataFoto.day}/${dataFoto.month}/${dataFoto.year}";
+                                                            }
+                                                          }),
+                                                      const SizedBox(
+                                                          height: 30),
+                                                      TextField(
+                                                        decoration:
+                                                            const InputDecoration(
+                                                          border:
+                                                              OutlineInputBorder(),
+                                                        ),
+                                                        controller:
+                                                            descricaoController,
+                                                        maxLines: null,
+                                                      ),
+                                                      const SizedBox(
+                                                          height: 16),
+                                                    ],
+                                                  ),
+                                                );
+                                              }),
+                                              actions: [
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child:
+                                                        const Text("Cancelar")),
+                                                TextButton(
+                                                    onPressed: () async {
+                                                      if (localFotoController
+                                                              .text
+                                                              .trim()
+                                                              .length <
+                                                          5) {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                const SnackBar(
+                                                                    content: Text(
+                                                                        "O local da foto dever ser preenchido - 5 caracteres ou mais.")));
+                                                        return;
+                                                      }
+                                                      if (dataFotoController
+                                                              .text ==
+                                                          "") {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                const SnackBar(
+                                                                    content: Text(
+                                                                        "Data da foto inválida")));
+                                                        return;
+                                                      }
+                                                      await fotoRepository.atualizar(
+                                                          FotoSQLiteModel(
+                                                              foto.id,
+                                                              localFotoController
+                                                                  .text,
+                                                              dataFotoController
+                                                                  .text,
+                                                              "midia_foto",
+                                                              descricaoController
+                                                                  .text,
+                                                              widget.viagemId));
+                                                      // ignore: use_build_context_synchronously
+                                                      Navigator.pop(context);
+                                                      obterFotos();
+                                                      setState(() {});
+                                                      // ignore: use_build_context_synchronously
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              const SnackBar(
+                                                                  content: Text(
+                                                                      "Foto salva com sucesso")));
+                                                    },
+                                                    child:
+                                                        const Text("Salvar")),
+                                              ],
+                                            );
+                                          });
+                                    },
                                     child: Text('Editar',
                                         style: MyTextSample.button(
                                             context)!), //.copyWith(color: Colors.white)
