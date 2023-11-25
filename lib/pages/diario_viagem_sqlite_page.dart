@@ -64,43 +64,45 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   content: StatefulBuilder(builder: (context, setState) {
-                    return Wrap(
-                      children: [
-                        const TextLabel(texto: "Viagem para:"),
-                        TextField(
-                          controller: localViagemController,
-                        ),
-                        const TextLabel(texto: "Data o início da viagem"),
-                        TextField(
-                            controller: dataInicioViagemController,
-                            readOnly: true,
-                            onTap: () async {
-                              dataInicio = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(2000, 1, 1),
-                                  lastDate: DateTime(2050, 12, 31));
-                              if (dataInicio != null) {
-                                dataInicioViagemController.text =
-                                    "${dataInicio.day}/${dataInicio.month}/${dataInicio.year}";
-                              }
-                            }),
-                        const TextLabel(texto: "Data final"),
-                        TextField(
-                            controller: dataFinalViagemController,
-                            readOnly: true,
-                            onTap: () async {
-                              dataFinal = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(2000, 1, 1),
-                                  lastDate: DateTime(2050, 12, 31));
-                              if (dataFinal != null) {
-                                dataFinalViagemController.text =
-                                    "${dataFinal.day}/${dataFinal.month}/${dataFinal.year}";
-                              }
-                            }),
-                      ],
+                    return SingleChildScrollView(
+                      child: Wrap(
+                        children: [
+                          const TextLabel(texto: "Viagem para:"),
+                          TextField(
+                            controller: localViagemController,
+                          ),
+                          const TextLabel(texto: "Data o início da viagem"),
+                          TextField(
+                              controller: dataInicioViagemController,
+                              readOnly: true,
+                              onTap: () async {
+                                dataInicio = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2000, 1, 1),
+                                    lastDate: DateTime(2050, 12, 31));
+                                if (dataInicio != null) {
+                                  dataInicioViagemController.text =
+                                      "${dataInicio.day}/${dataInicio.month}/${dataInicio.year}";
+                                }
+                              }),
+                          const TextLabel(texto: "Data final"),
+                          TextField(
+                              controller: dataFinalViagemController,
+                              readOnly: true,
+                              onTap: () async {
+                                dataFinal = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2000, 1, 1),
+                                    lastDate: DateTime(2050, 12, 31));
+                                if (dataFinal != null) {
+                                  dataFinalViagemController.text =
+                                      "${dataFinal.day}/${dataFinal.month}/${dataFinal.year}";
+                                }
+                              }),
+                        ],
+                      ),
                     );
                   }),
                   actions: [
