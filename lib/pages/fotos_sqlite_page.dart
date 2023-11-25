@@ -234,7 +234,11 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Image.asset(
-                              AppImages.paisagem3,
+                              (foto.idViagem == 1)
+                                  ? AppImages.paisagem1
+                                  : (foto.idViagem == 2)
+                                      ? AppImages.paisagem2
+                                      : AppImages.paisagem3,
                               height: 250,
                               width: double.infinity,
                               fit: BoxFit.cover,
