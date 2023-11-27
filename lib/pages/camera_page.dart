@@ -15,6 +15,7 @@ class _CameraPageState extends State<CameraPage> {
         body: Container(),
         appBar: AppBar(
           title: const Text("Camera"),
+          backgroundColor: Colors.green,
         ),
       ),
     );

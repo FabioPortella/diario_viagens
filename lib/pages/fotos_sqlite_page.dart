@@ -61,7 +61,7 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add_a_photo),
         onPressed: () async {
-          Navigator.pushReplacement(
+          Navigator.push(
               context, MaterialPageRoute(builder: (_) => const CameraPage()));
         },
         // onPressed: () async {
