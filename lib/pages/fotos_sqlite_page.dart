@@ -73,9 +73,7 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
             String path =
                 (await path_provider.getApplicationDocumentsDirectory()).path;
             String name = basename(photo.path);
-            debugPrint("Esta foto está aqui: $path/$name");
             await photo.saveTo("$path/$name");
-
             await fotoRepository.salvar(FotoSQLiteModel(
                 0,
                 "",
@@ -131,6 +129,8 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                   var foto = _fotos[index];
                   return Dismissible(
                     onDismissed: (DismissDirection dismissDirection) async {
+                      File arquivoFoto = File(foto.midia);
+                      await arquivoFoto.delete();
                       await fotoRepository.remover(foto.id);
                       obterFotos();
                       // ignore: use_build_context_synchronously
@@ -163,8 +163,6 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                     },
                     key: Key(foto.localFoto),
                     child: GestureDetector(
-                      // também pode ser usado onLongPress
-
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6),
