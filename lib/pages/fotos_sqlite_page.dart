@@ -5,6 +5,7 @@ import 'package:diario_viagens/repositories/foto_sqlite_repository.dart';
 import 'package:diario_viagens/shared/app_images.dart';
 import 'package:diario_viagens/shared/widgets/text_label.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 double defaultRadius = 8.0;
@@ -61,24 +62,25 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add_a_photo),
         onPressed: () async {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (_) => const CameraPage()));
+          final ImagePicker picker = ImagePicker();
+          final XFile? photo =
+              await picker.pickImage(source: ImageSource.camera);
+          if (photo != null) {
+            await fotoRepository.salvar(FotoSQLiteModel(
+                0,
+                "",
+                DateFormat("dd/MM/yyyy").format(DateTime.now()),
+                "midia_foto",
+                "",
+                widget.viagemId));
+            // ignore: use_build_context_synchronously
+            obterFotos();
+            setState(() {});
+            // ignore: use_build_context_synchronously
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Foto adicionada com sucesso")));
+          }
         },
-        // onPressed: () async {
-        //   await fotoRepository.salvar(FotoSQLiteModel(
-        //       0,
-        //       "",
-        //       DateFormat("dd/MM/yyyy").format(DateTime.now()),
-        //       "midia_foto",
-        //       "",
-        //       widget.viagemId));
-        //   // ignore: use_build_context_synchronously
-        //   obterFotos();
-        //   setState(() {});
-        //   // ignore: use_build_context_synchronously
-        //   ScaffoldMessenger.of(context).showSnackBar(
-        //       const SnackBar(content: Text("Foto adicionada com sucesso")));
-        // },
       ),
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
