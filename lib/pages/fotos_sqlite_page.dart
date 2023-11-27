@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:diario_viagens/model/foto_sqlite_model.dart';
 import 'package:diario_viagens/pages/diario_viagem_sqlite_page.dart';
 import 'package:diario_viagens/repositories/foto_sqlite_repository.dart';
-import 'package:diario_viagens/shared/app_images.dart';
 import 'package:diario_viagens/shared/widgets/text_label.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -180,16 +179,6 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                               width: double.infinity,
                               fit: BoxFit.cover,
                             ),
-                            // Image.asset(
-                            //   (foto.idViagem == 1)
-                            //       ? AppImages.paisagem1
-                            //       : (foto.idViagem == 2)
-                            //           ? AppImages.paisagem2
-                            //           : AppImages.paisagem3,
-                            //   height: 250,
-                            //   width: double.infinity,
-                            //   fit: BoxFit.cover,
-                            // ),
                             Container(
                               padding: const EdgeInsets.all(15),
                               child: Column(
