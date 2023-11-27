@@ -1,4 +1,5 @@
 import 'package:diario_viagens/model/foto_sqlite_model.dart';
+import 'package:diario_viagens/pages/camera_page.dart';
 import 'package:diario_viagens/pages/diario_viagem_sqlite_page.dart';
 import 'package:diario_viagens/repositories/foto_sqlite_repository.dart';
 import 'package:diario_viagens/shared/app_images.dart';
@@ -60,20 +61,24 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add_a_photo),
         onPressed: () async {
-          await fotoRepository.salvar(FotoSQLiteModel(
-              0,
-              "Local da foto",
-              DateFormat("dd/MM/yyyy").format(DateTime.now()),
-              "midia_foto",
-              "Descrição da foto",
-              widget.viagemId));
-          // ignore: use_build_context_synchronously
-          obterFotos();
-          setState(() {});
-          // ignore: use_build_context_synchronously
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Foto adicionada com sucesso")));
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => const CameraPage()));
         },
+        // onPressed: () async {
+        //   await fotoRepository.salvar(FotoSQLiteModel(
+        //       0,
+        //       "",
+        //       DateFormat("dd/MM/yyyy").format(DateTime.now()),
+        //       "midia_foto",
+        //       "",
+        //       widget.viagemId));
+        //   // ignore: use_build_context_synchronously
+        //   obterFotos();
+        //   setState(() {});
+        //   // ignore: use_build_context_synchronously
+        //   ScaffoldMessenger.of(context).showSnackBar(
+        //       const SnackBar(content: Text("Foto adicionada com sucesso")));
+        // },
       ),
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
