@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:diario_viagens/model/foto_sqlite_model.dart';
 import 'package:diario_viagens/pages/diario_viagem_sqlite_page.dart';
 import 'package:diario_viagens/repositories/foto_sqlite_repository.dart';
@@ -5,6 +7,10 @@ import 'package:diario_viagens/shared/app_images.dart';
 import 'package:diario_viagens/shared/widgets/text_label.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
+// ignore: depend_on_referenced_packages
+import 'package:path/path.dart';
+
 import 'package:intl/intl.dart';
 
 double defaultRadius = 8.0;
@@ -65,11 +71,17 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
           final XFile? photo =
               await picker.pickImage(source: ImageSource.camera);
           if (photo != null) {
+            String path =
+                (await path_provider.getApplicationDocumentsDirectory()).path;
+            String name = basename(photo.path);
+            debugPrint("Esta foto está aqui: $path/$name");
+            await photo.saveTo("$path/$name");
+
             await fotoRepository.salvar(FotoSQLiteModel(
                 0,
                 "",
                 DateFormat("dd/MM/yyyy").format(DateTime.now()),
-                "midia_foto",
+                "$path/$name",
                 "",
                 widget.viagemId));
             // ignore: use_build_context_synchronously
@@ -78,6 +90,10 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
             // ignore: use_build_context_synchronously
             ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text("Foto adicionada com sucesso")));
+          } else {
+            // ignore: use_build_context_synchronously
+            ScaffoldMessenger.of(context)
+                .showSnackBar(const SnackBar(content: Text("Foto cancelada.")));
           }
         },
       ),
@@ -158,16 +174,22 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Image.asset(
-                              (foto.idViagem == 1)
-                                  ? AppImages.paisagem1
-                                  : (foto.idViagem == 2)
-                                      ? AppImages.paisagem2
-                                      : AppImages.paisagem3,
+                            Image.file(
+                              File(foto.midia),
                               height: 250,
                               width: double.infinity,
                               fit: BoxFit.cover,
                             ),
+                            // Image.asset(
+                            //   (foto.idViagem == 1)
+                            //       ? AppImages.paisagem1
+                            //       : (foto.idViagem == 2)
+                            //           ? AppImages.paisagem2
+                            //           : AppImages.paisagem3,
+                            //   height: 250,
+                            //   width: double.infinity,
+                            //   fit: BoxFit.cover,
+                            // ),
                             Container(
                               padding: const EdgeInsets.all(15),
                               child: Column(
