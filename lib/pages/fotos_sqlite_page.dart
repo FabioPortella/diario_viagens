@@ -1,5 +1,4 @@
 import 'package:diario_viagens/model/foto_sqlite_model.dart';
-import 'package:diario_viagens/pages/camera_page.dart';
 import 'package:diario_viagens/pages/diario_viagem_sqlite_page.dart';
 import 'package:diario_viagens/repositories/foto_sqlite_repository.dart';
 import 'package:diario_viagens/shared/app_images.dart';
