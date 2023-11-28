@@ -1,3 +1,6 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:diario_viagens/pages/diario_viagem_sqlite_page.dart';
+import 'package:diario_viagens/shared/app_images.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreenPage extends StatefulWidget {
@@ -17,9 +20,36 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [Colors.yellow, Colors.purpleAccent],
-                stops: [0.4, 0.9])),
-        child: const Center(child: Text("Diário de Viagem")),
+                colors: [Colors.green, Colors.white],
+                stops: [0.2, 0.9])),
+        child: Column(
+          children: [
+            Image.asset(AppImages.splash),
+            Center(
+                child: AnimatedTextKit(
+              onFinished: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (builder) => const ViagemPageSQLite()));
+              },
+              animatedTexts: [
+                TypewriterAnimatedText(
+                  '\n\nDiário de Viagens\nFábio Portella\nHenrique Portella\n\n Matéria: Dispositivos Moveis II - Flutter',
+                  textStyle: const TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  speed: const Duration(milliseconds: 100),
+                ),
+              ],
+              totalRepeatCount: 1,
+              pause: const Duration(milliseconds: 50),
+              displayFullTextOnTap: true,
+              stopPauseOnTap: true,
+            )),
+          ],
+        ),
       ),
     ));
   }
