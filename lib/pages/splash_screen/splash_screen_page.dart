@@ -18,13 +18,19 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       body: Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
                 colors: [Colors.green, Colors.white],
-                stops: [0.2, 0.9])),
+                stops: [0.1, 0.7])),
         child: Column(
           children: [
-            Image.asset(AppImages.splash),
+            Container(
+              margin: const EdgeInsets.all(
+                  16.0), // Defina as margens desejadas aqui
+              child: Image.asset(
+                AppImages.splash,
+              ),
+            ),
             Center(
                 child: AnimatedTextKit(
               onFinished: () {
