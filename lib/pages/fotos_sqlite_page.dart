@@ -1,16 +1,14 @@
-import 'dart:io';
-
+import 'package:flutter/material.dart';
 import 'package:diario_viagens/model/foto_sqlite_model.dart';
 import 'package:diario_viagens/pages/diario_viagem_sqlite_page.dart';
 import 'package:diario_viagens/repositories/foto_sqlite_repository.dart';
 import 'package:diario_viagens/shared/widgets/text_label.dart';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
-
 import 'package:intl/intl.dart';
+import 'dart:io';
 
 double defaultRadius = 8.0;
 
