@@ -1,6 +1,6 @@
-import 'package:diario_viagens/pages/diario_viagem_sqlite_page.dart';
+//import 'package:diario_viagens/pages/diario_viagem_sqlite_page.dart';
+import 'package:diario_viagens/pages/splash_screen/splash_screen_page.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class MyApp extends StatelessWidget {
   // stl - atalho
@@ -8,13 +8,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false, // retira a faixa DEBUG do app
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        textTheme: GoogleFonts.robotoTextTheme(),
-      ),
-      home: const ViagemPageSQLite(),
+      home: SplashScreenPage(),
     );
   }
 }
