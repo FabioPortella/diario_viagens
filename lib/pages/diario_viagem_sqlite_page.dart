@@ -206,6 +206,7 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
                                     texto: "Informe o PIN de 4 digitos:"),
                                 TextField(
                                   controller: excluirController,
+                                  keyboardType: TextInputType.number,
                                 ),
                               ],
                             ),

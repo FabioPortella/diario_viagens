@@ -150,6 +150,7 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                                   texto: "Informe o PIN de 4 digitos:"),
                               TextField(
                                 controller: excluirController,
+                                keyboardType: TextInputType.number,
                               ),
                             ]),
                             actions: <Widget>[
