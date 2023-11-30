@@ -76,7 +76,7 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
             await fotoRepository.salvar(FotoSQLiteModel(
                 0,
                 "",
-                DateFormat("dd/MM/yyyy").format(DateTime.now()),
+                DateFormat("yyyy/MM/dd").format(DateTime.now()),
                 "$path/$name",
                 "",
                 widget.viagemId));
@@ -88,8 +88,8 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                 const SnackBar(content: Text("Foto adicionada com sucesso")));
           } else {
             // ignore: use_build_context_synchronously
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text("Foto cancelada.")));
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Inclusão de foto cancelada.")));
           }
         },
       ),
@@ -261,7 +261,7 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                                                                 context:
                                                                     context,
                                                                 initialDate: DateFormat(
-                                                                        "dd/MM/yyyy")
+                                                                        "yyyy/MM/dd")
                                                                     .parse(foto
                                                                         .dataFoto),
                                                                 firstDate:
@@ -278,7 +278,7 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                                                                 null) {
                                                               dataFotoController
                                                                       .text =
-                                                                  "${dataFoto.day}/${dataFoto.month}/${dataFoto.year}";
+                                                                  "${dataFoto.year}/${dataFoto.month}/${dataFoto.day}";
                                                             }
                                                           }),
                                                       const SizedBox(
