@@ -232,7 +232,7 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                                                       BorderRadius.circular(
                                                           10)),
                                               title: const Text(
-                                                "Adicionar",
+                                                "Editar",
                                                 style: TextStyle(
                                                     fontWeight:
                                                         FontWeight.bold),

@@ -264,7 +264,7 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 title: const Text(
-                                  "Adicionar",
+                                  "Editar",
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 content: StatefulBuilder(
