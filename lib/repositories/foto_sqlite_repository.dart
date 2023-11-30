@@ -7,7 +7,7 @@ class FotoSQLiteRepository {
     var db = await SQLiteDataBase().obterDataBase();
 
     var result =
-        await db.rawQuery("SELECT * FROM foto WHERE id_viagem = ?", [idViagem]);
+        await db.rawQuery("SELECT * FROM foto WHERE id_viagem = ? ORDER BY data_foto", [idViagem]);
     for (var element in result) {
       fotos.add(FotoSQLiteModel(
           int.parse(element["id"].toString()),

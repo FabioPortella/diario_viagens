@@ -7,8 +7,8 @@ class ViagemSQLiteRepository {
     var db = await SQLiteDataBase().obterDataBase();
 
     var result = await db.rawQuery(apenasNaoEncerradas
-        ? "SELECT id, local, inicio, final, encerrada FROM viagens WHERE encerrada = 0"
-        : "SELECT id, local, inicio, final, encerrada FROM viagens");
+        ? "SELECT id, local, inicio, final, encerrada FROM viagens WHERE encerrada = 0 ORDER BY inicio"
+        : "SELECT id, local, inicio, final, encerrada FROM viagens ORDER BY inicio");
     for (var element in result) {
       viagens.add(ViagemSQLiteModel(
           int.parse(element["id"].toString()),
