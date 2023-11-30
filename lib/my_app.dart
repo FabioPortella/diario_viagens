@@ -1,5 +1,5 @@
 //import 'package:diario_viagens/pages/diario_viagem_sqlite_page.dart';
-import 'package:diario_viagens/pages/splash_screen/splash_screen_page.dart';
+import 'package:diario_viagens/pages/splash_screen_page.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
