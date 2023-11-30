@@ -341,7 +341,7 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                                                                   .text,
                                                               dataFotoController
                                                                   .text,
-                                                              "midia_foto",
+                                                              foto.midia,
                                                               descricaoController
                                                                   .text,
                                                               widget.viagemId));

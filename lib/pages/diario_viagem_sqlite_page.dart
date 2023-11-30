@@ -3,6 +3,7 @@ import 'package:diario_viagens/pages/fotos_sqlite_page.dart';
 import 'package:diario_viagens/repositories/viagem_sqlite_repository.dart';
 import 'package:diario_viagens/shared/widgets/text_label.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 double defaultRadius = 8.0;
 
@@ -84,7 +85,7 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
                                     lastDate: DateTime(2050, 12, 31));
                                 if (dataInicio != null) {
                                   dataInicioViagemController.text =
-                                      "${dataInicio.day}/${dataInicio.month}/${dataInicio.year}";
+                                      "${dataInicio.year}/${dataInicio.month}/${dataInicio.day}";
                                 }
                               }),
                           const TextLabel(texto: "Data final"),
@@ -99,7 +100,7 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
                                     lastDate: DateTime(2050, 12, 31));
                                 if (dataFinal != null) {
                                   dataFinalViagemController.text =
-                                      "${dataFinal.day}/${dataFinal.month}/${dataFinal.year}";
+                                      "${dataFinal.year}/${dataFinal.month}/${dataFinal.day}";
                                 }
                               }),
                         ],
@@ -246,6 +247,136 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
                                       viagemId: viagem.id,
                                       viagemLocal: viagem.localViagem,
                                     )));
+                      },
+                      onLongPress: () {
+                        // Caixa de dialogo para alteração de dados.
+                        localViagemController.text = viagem.localViagem;
+                        dataInicioViagemController.text = viagem.dataInicio;
+                        dataInicio = null;
+                        dataFinalViagemController.text = viagem.dataFinal;
+                        dataFinal = null;
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext bc) {
+                              return AlertDialog(
+                                alignment: Alignment.centerLeft,
+                                elevation: 8,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                title: const Text(
+                                  "Adicionar",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                content: StatefulBuilder(
+                                    builder: (context, setState) {
+                                  return SingleChildScrollView(
+                                    child: Wrap(
+                                      children: [
+                                        const TextLabel(texto: "Viagem para:"),
+                                        TextField(
+                                          controller: localViagemController,
+                                        ),
+                                        const TextLabel(
+                                            texto: "Data o início da viagem"),
+                                        TextField(
+                                            controller:
+                                                dataInicioViagemController,
+                                            readOnly: true,
+                                            onTap: () async {
+                                              dataInicio = await showDatePicker(
+                                                  context: context,
+                                                  initialDate: DateFormat(
+                                                          "yyyy/MM/dd")
+                                                      .parse(viagem.dataInicio),
+                                                  firstDate:
+                                                      DateTime(2000, 1, 1),
+                                                  lastDate:
+                                                      DateTime(2050, 12, 31));
+                                              if (dataInicio != null) {
+                                                dataInicioViagemController
+                                                        .text =
+                                                    "${dataInicio.year}/${dataInicio.month}/${dataInicio.day}";
+                                              }
+                                            }),
+                                        const TextLabel(texto: "Data final"),
+                                        TextField(
+                                            controller:
+                                                dataFinalViagemController,
+                                            readOnly: true,
+                                            onTap: () async {
+                                              dataFinal = await showDatePicker(
+                                                  context: context,
+                                                  initialDate: DateFormat(
+                                                          "yyyy/MM/dd")
+                                                      .parse(viagem.dataFinal),
+                                                  firstDate:
+                                                      DateTime(2000, 1, 1),
+                                                  lastDate:
+                                                      DateTime(2050, 12, 31));
+                                              if (dataFinal != null) {
+                                                dataFinalViagemController.text =
+                                                    "${dataFinal.year}/${dataFinal.month}/${dataFinal.day}";
+                                              }
+                                            }),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("Cancelar")),
+                                  TextButton(
+                                      onPressed: () async {
+                                        if (localViagemController.text
+                                                .trim()
+                                                .length <
+                                            3) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content: Text(
+                                                      "O local da viagem dever ser preenchido - 3 caracteres ou mais.")));
+                                          return;
+                                        }
+                                        if (dataInicioViagemController.text ==
+                                            "") {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content: Text(
+                                                      "Data de início da viagem inválida")));
+                                          return;
+                                        }
+                                        if (dataFinalViagemController.text ==
+                                            "") {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content: Text(
+                                                      "Data final da viagem inválida. Favor informar uma data, mesmo que seja uma previsão.")));
+                                          return;
+                                        }
+                                        await viagemRepository.atualizar(
+                                            ViagemSQLiteModel(
+                                                viagem.id,
+                                                localViagemController.text,
+                                                dataInicioViagemController.text,
+                                                dataFinalViagemController.text,
+                                                viagem.encerrada));
+                                        // ignore: use_build_context_synchronously
+                                        Navigator.pop(context);
+                                        obterViagem();
+                                        setState(() {});
+                                        // ignore: use_build_context_synchronously
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                                content: Text(
+                                                    "Viagem alterada com sucesso")));
+                                      },
+                                      child: const Text("Salvar")),
+                                ],
+                              );
+                            });
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
