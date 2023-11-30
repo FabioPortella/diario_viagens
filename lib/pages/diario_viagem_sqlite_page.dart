@@ -16,6 +16,7 @@ class ViagemPageSQLite extends StatefulWidget {
 class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
   ViagemSQLiteRepository viagemRepository = ViagemSQLiteRepository();
   var _viagem = const <ViagemSQLiteModel>[];
+  var excluirController = TextEditingController(text: "");
   var localViagemController = TextEditingController(text: "");
   var dataInicioViagemController = TextEditingController(text: "");
   var dataFinalViagemController = TextEditingController(text: "");
@@ -196,8 +197,17 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: const Text("Confirmar"),
-                            content: const Text(
-                                "Você realmente quer excluir este item?"),
+                            content: Wrap(
+                              children: [
+                                const Text(
+                                    "Você realmente quer excluir este item?"),
+                                const TextLabel(
+                                    texto: "Informe o PIN de 4 digitos:"),
+                                TextField(
+                                  controller: excluirController,
+                                ),
+                              ],
+                            ),
                             actions: <Widget>[
                               TextButton(
                                 onPressed: () =>
@@ -205,8 +215,17 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
                                 child: const Text("Cancelar"),
                               ),
                               TextButton(
-                                onPressed: () =>
-                                    Navigator.of(context).pop(true),
+                                onPressed: () {
+                                  if (excluirController.text == "1234") {
+                                    Navigator.of(context).pop(true);
+                                  } else {
+                                    Navigator.of(context).pop(false);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                "PIN inválido. Ação de exclusão cancelada.")));
+                                  }
+                                },
                                 child: const Text("Excluir"),
                               ),
                             ],
