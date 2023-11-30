@@ -41,12 +41,12 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
               },
               animatedTexts: [
                 TypewriterAnimatedText(
-                  'Diário de Viagens\nFábio Portella\nHenrique Portella\nMatéria: \nDisp. Móveis II\nPower by Flutter',
+                  'Diário de Viagens\n\nFábio\nHenrique\n\nPower by Flutter',
                   textStyle: const TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.w700,
                   ),
-                  speed: const Duration(milliseconds: 50),
+                  speed: const Duration(milliseconds: 40),
                 ),
               ],
               totalRepeatCount: 1,
