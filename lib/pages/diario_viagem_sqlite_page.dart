@@ -195,6 +195,7 @@ class _ViagemPageSQLiteState extends State<ViagemPageSQLite> {
                       return await showDialog(
                         context: context,
                         builder: (BuildContext context) {
+                          excluirController.text = "";
                           return AlertDialog(
                             title: const Text("Confirmar"),
                             content: Wrap(

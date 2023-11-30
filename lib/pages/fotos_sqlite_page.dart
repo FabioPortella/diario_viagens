@@ -26,6 +26,7 @@ class FotosPageSQLite extends StatefulWidget {
 class _FotosPageSQLiteState extends State<FotosPageSQLite> {
   FotoSQLiteRepository fotoRepository = FotoSQLiteRepository();
   var _fotos = const <FotoSQLiteModel>[];
+  var excluirController = TextEditingController(text: "");
   var localFotoController = TextEditingController(text: "");
   var dataFotoController = TextEditingController(text: "");
   var descricaoController = TextEditingController(text: "");
@@ -139,10 +140,18 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                       return await showDialog(
                         context: context,
                         builder: (BuildContext context) {
+                          excluirController.text = "";
                           return AlertDialog(
                             title: const Text("Confirmar"),
-                            content: const Text(
-                                "Você realmente quer excluir este item?"),
+                            content: Wrap(children: [
+                              const Text(
+                                  "Você realmente quer excluir este item?"),
+                              const TextLabel(
+                                  texto: "Informe o PIN de 4 digitos:"),
+                              TextField(
+                                controller: excluirController,
+                              ),
+                            ]),
                             actions: <Widget>[
                               TextButton(
                                 onPressed: () =>
@@ -150,8 +159,17 @@ class _FotosPageSQLiteState extends State<FotosPageSQLite> {
                                 child: const Text("Cancelar"),
                               ),
                               TextButton(
-                                onPressed: () =>
-                                    Navigator.of(context).pop(true),
+                                onPressed: () {
+                                  if (excluirController.text == "1234") {
+                                    Navigator.of(context).pop(true);
+                                  } else {
+                                    Navigator.of(context).pop(false);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                "PIN inválido. Ação de exclusão cancelada.")));
+                                  }
+                                },
                                 child: const Text("Excluir"),
                               ),
                             ],
